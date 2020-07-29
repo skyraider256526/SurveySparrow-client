@@ -64,6 +64,7 @@ export const fetchUserData = createAsyncThunk(
   'user/fetchUserData',
   (payload, { dispatch }) => {
     console.log('in Fetch');
+    dispatch(setAuthenticated());
     return axios.get('/user');
   }
 );
@@ -71,22 +72,21 @@ export const fetchUserData = createAsyncThunk(
 /////////// END THUNKS ///////////
 
 /// UserSlice
+
+const initialState = {
+  loading: 'idle',
+  authenticated: false,
+  credentials: {},
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    loading: 'idle',
-    authenticated: false,
-    credentials: {},
-  },
+  initialState: initialState,
   reducers: {
-    setAuthenticated: state => (state.authenticated = false),
-    setUnAuthenticated: state =>
-      (state = {
-        loading: 'idle',
-        errors: {},
-        authenticated: false,
-        credentials: {},
-      }),
+    setAuthenticated: state => {
+      state.authenticated = true;
+    },
+    setUnAuthenticated: state => initialState,
   },
   extraReducers: {
     [loginUser.pending]: (state, action) => {
@@ -101,14 +101,15 @@ const userSlice = createSlice({
     },
     [fetchUserData.fulfilled]: (state, action) => {
       console.log(action);
+      state.credentials = action.payload.data;
     },
   },
 });
 
-const { setAuthenticated, setUnAuthenticated } = userSlice.actions;
-
 /// Selectors
 export const selectLoading = state => state.user.loading;
+
+export const { setUnAuthenticated, setAuthenticated } = userSlice.actions;
 
 export default userSlice.reducer;
 

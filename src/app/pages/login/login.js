@@ -19,7 +19,6 @@ import {
 import AccountCircleIcon from '@material-ui/icons/AccountCircleSharp';
 
 /// Axios
-import axios from 'axios';
 
 /// User components
 import { loginUser, selectLoading } from 'features/user/userSlice';
@@ -63,7 +62,7 @@ function Login() {
     return () => {
       dispatch(clearErrors());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Grid container className={classes.form}>
