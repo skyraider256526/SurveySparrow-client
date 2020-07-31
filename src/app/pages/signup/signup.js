@@ -59,25 +59,6 @@ function SignUp() {
     //to clear any previous error
     const newUserData = signUpInfo;
     dispatch(signupUser({ newUserData, history }));
-    // await axios
-    //   .post('/signup', newUserData)
-    //   .then(res => {
-    //     localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-    //     setIsLoading(false);
-    //     history.push('/');
-    //   })
-    //   .catch(error => {
-    //     setErrors(error.response.data);
-    //     setIsLoading(false);
-    //   })
-    //   .finally(
-    //     setSignUpInfo({
-    //       email: '',
-    //       password: '',
-    //       confirmPassword: '',
-    //       username: '',
-    //     })
-    //   );
   };
 
   useEffect(() => {

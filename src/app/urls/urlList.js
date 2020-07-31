@@ -101,7 +101,15 @@ function Urls({ urls }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <List aria-label="Urls list">{urlItems}</List>
+      <List aria-label="Urls list">
+        {Array.isArray(localUrls) && localUrls.length ? (
+          urlItems
+        ) : (
+          <Box mt="10%" textAlign="center" fontSize="2rem">
+            Please Add a url
+          </Box>
+        )}
+      </List>
       <Box alignSelf="end">
         <Container>
           <IconButton

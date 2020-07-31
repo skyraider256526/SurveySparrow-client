@@ -99,6 +99,16 @@ const userSlice = createSlice({
     [loginUser.rejected]: (state, action) => {
       state.loading = 'idle';
     },
+    [signupUser.pending]: (state, action) => {
+      state.loading = 'pending';
+    },
+    [signupUser.fulfilled]: state => {
+      state.loading = 'idle';
+      // console.log(action);
+    },
+    [signupUser.rejected]: (state, action) => {
+      state.loading = 'idle';
+    },
     [fetchUserData.fulfilled]: (state, action) => {
       console.log(action);
       state.credentials = action.payload.data;
