@@ -18,7 +18,7 @@ export const loginUser = createAsyncThunk(
       setAuthorizationHeader(res.data.token);
       dispatch(fetchUserData());
       dispatch(clearErrors());
-      history.push('/');
+      history.push('/dashboard');
       return null;
     } catch (error) {
       if (!error.response) {
@@ -40,7 +40,7 @@ export const signupUser = createAsyncThunk(
       setAuthorizationHeader(res.data.token);
       dispatch(fetchUserData());
       dispatch(clearErrors());
-      history.push('/');
+      history.push('/dashboard');
       return null;
     } catch (error) {
       if (!error.response) {

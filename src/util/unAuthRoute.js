@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-export default function AuthRoute({
+export default function UnAuthRoute({
   component: Component,
   authenticated,
   ...rest
@@ -10,7 +10,7 @@ export default function AuthRoute({
     <Route
       {...rest}
       render={props =>
-        authenticated === true ? <Redirect to="/" /> : <Component {...props} />
+        authenticated === false ? <Redirect to="/" /> : <Component {...props} />
       }
     />
   );

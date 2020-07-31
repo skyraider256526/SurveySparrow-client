@@ -1,15 +1,52 @@
 import React from 'react';
 
-/// Redux
-import { useSelector } from 'react-redux';
-
 /// MUI
-import { Typography } from '@material-ui/core';
+import { Typography, Paper, Box } from '@material-ui/core';
 
-function Profile() {
-  const user = useSelector(state => state.user.credentials);
-  console.log(user);
-  return <div></div>;
+import { CalendarToday } from '@material-ui/icons';
+
+/// Misc
+import dayjs from 'dayjs';
+
+/// User
+import useStyles from './profile.styles';
+
+/// Driver
+function Profile({ userData }) {
+  // const {...userData};
+  /// MUI
+  const classes = useStyles();
+
+  const createdAt = Date.now();
+  return (
+    <Paper className={classes.paper}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-around"
+        height="100%"
+      >
+        <div>
+          <Typography variant="h5" color="secondary">
+            Email
+          </Typography>
+          <Typography variant="h6" color="textPrimary">
+            {userData.email}
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="h5" color="secondary">
+            Username
+          </Typography>
+          <Typography variant="h5">{userData.username}</Typography>
+        </div>
+        <Box alignItems="end" display="flex">
+          <CalendarToday color="primary" />{' '}
+          <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
+        </Box>
+      </Box>
+    </Paper>
+  );
 }
 
 export default Profile;

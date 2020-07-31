@@ -1,15 +1,18 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button, AppBar, Toolbar } from '@material-ui/core';
+import { Button, AppBar, Toolbar, Box } from '@material-ui/core';
 
 /// Redux
 import { useSelector, useDispatch } from 'react-redux';
 
 /// User components
 import { logoutUser } from 'features/user/userSlice';
+import useStyles from './NavBar.styles';
 
 export default function NavBar() {
   const authenticated = useSelector(state => state.user.authenticated);
+
+  const classes = useStyles();
 
   const dispatch = useDispatch();
 
@@ -18,28 +21,32 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={classes.appBar}>
       <Toolbar>
-        <Button color="inherit" component={RouterLink} to="/">
-          Home
-        </Button>
         {authenticated ? (
-          <Button
-            color="inherit"
-            onClick={handleOnClick}
-            component={RouterLink}
-            to="/"
-          >
-            Log Out
-          </Button>
+          <>
+            <Button component={RouterLink} to="/dashboard">
+              Dashboard
+            </Button>
+            <Box ml="auto">
+              <Button onClick={handleOnClick} component={RouterLink} to="/">
+                Log Out
+              </Button>
+            </Box>
+          </>
         ) : (
           <>
-            <Button color="inherit" component={RouterLink} to="/login">
-              Login
+            <Button component={RouterLink} to="/">
+              Home
             </Button>
-            <Button color="inherit" component={RouterLink} to="/signup">
-              Signup
-            </Button>
+            <Box ml="auto">
+              <Button component={RouterLink} to="/login">
+                Login
+              </Button>
+              <Button component={RouterLink} to="/signup">
+                Signup
+              </Button>
+            </Box>
           </>
         )}
       </Toolbar>

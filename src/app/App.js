@@ -9,21 +9,29 @@ import {
   createMuiTheme,
 } from '@material-ui/core';
 
-/// Redux
-// import { useDispatch } from 'react-redux';
+///Redux
+import { useSelector } from 'react-redux';
 
 /// Misc
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
 /// Uitl
+// import UnAuthRoute from 'util/unAauthRoute';
+import UnAuthRoute from 'util/unAuthRoute';
 import AuthRoute from 'util/authRoute';
 import themeFile from 'util/theme';
 
 import './App.css';
 
 /// Pages
-import { home, login, signup } from './pages';
+import {
+  home,
+  login,
+  signup,
+  dashboard as Dashboard,
+  dashboard,
+} from './pages';
 
 ///Components
 import useStyles from './app.styles';
@@ -35,6 +43,9 @@ import {
 } from 'features/user/userSlice';
 import store from './store';
 
+axios.defaults.baseURL =
+  'https://us-central1-surveysparrow-7b88e.cloudfunctions.net/api';
+
 const theme = createMuiTheme(themeFile);
 
 const token = localStorage.FBIdToken;
@@ -44,7 +55,9 @@ if (token) {
 
   if (decodedToken.exp * 1000 < Date.now()) {
     store.dispatch(setUnAuthenticated());
-    window.location.href = '/login';
+    delete axios.defaults.headers.common['Authorization'];
+    localStorage.removeItem('FBIdToken');
+    // window.location.href = '/login';
   } else {
     store.dispatch(setAuthenticated());
     axios.defaults.headers.common['Authorization'] = token;
@@ -56,7 +69,7 @@ function App() {
   const classes = useStyles();
 
   /// Selectors
-
+  const authenticated = useSelector(state => state.user.loading);
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
@@ -66,8 +79,24 @@ function App() {
           <Container className={classes.container}>
             <Switch>
               <Route exact path="/" component={home} />
-              <AuthRoute exact path="/login" component={login} />
-              <AuthRoute exact path="/signup" component={signup} />
+              <UnAuthRoute
+                authenticated={authenticated}
+                exact
+                path="/login"
+                component={login}
+              />
+              <UnAuthRoute
+                authenticated={authenticated}
+                exact
+                path="/signup"
+                component={signup}
+              />
+              <AuthRoute
+                authenticated={authenticated}
+                exact
+                path="/dashboard"
+                component={dashboard}
+              />
             </Switch>
           </Container>
         </Router>
